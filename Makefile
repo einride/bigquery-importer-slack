@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 .PHONY: all
 all: \
 	go-test \
@@ -9,6 +11,7 @@ all: \
 include tools/ko/rules.mk
 include ./tools/golangci-lint/rules.mk
 include ./tools/goreview/rules.mk
+include ./tools/semantic-release/rules.mk
 
 revision := $(shell git rev-parse --verify HEAD)
 dirty := $(shell git diff --quiet || echo '-dirty')
