@@ -40,7 +40,7 @@ func (c *SlackClient) ListUserGroups(ctx context.Context, put func(context.Conte
 			err = fmt.Errorf("list usersgroups: %v", err)
 		}
 	}()
-	groups, err := c.Client.GetUserGroups()
+	groups, err := c.Client.GetUserGroups(slack.GetUserGroupsOptionIncludeUsers(true))
 	if err != nil {
 		return err
 	}
