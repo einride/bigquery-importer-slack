@@ -9,6 +9,8 @@ import (
 	"github.com/slack-go/slack"
 )
 
+// ChannelsRow follows the structure of the WebAPI. For field descriptions see the official
+// documentation: https://api.slack.com/types/channel
 type ChannelsRow struct {
 	Org       string  `bigquery:"org"`
 	Id        string  `bigquery:"id"`
@@ -54,6 +56,8 @@ func (c *ChannelsRow) Schema() bigquery.Schema {
 
 func (c *ChannelsRow) TableMetadata() *bigquery.TableMetadata {
 	return &bigquery.TableMetadata{
+		Description: "channels follows the structure of the WebAPI. For field descriptions see the official " +
+			"documentation: https://api.slack.com/types/channel",
 		Schema: c.Schema(),
 	}
 }

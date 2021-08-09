@@ -9,6 +9,8 @@ import (
 	"github.com/slack-go/slack"
 )
 
+// UserGroupsRow follows the structure of the WebAPI. For field descriptions see the official
+// documentation: https://api.slack.com/types/usergroup
 type UserGroupsRow struct {
 	Org         string         `bigquery:"org"`
 	Id          string         `bigquery:"id"`
@@ -55,6 +57,8 @@ func (u *UserGroupsRow) Schema() bigquery.Schema {
 
 func (u *UserGroupsRow) TableMetadata() *bigquery.TableMetadata {
 	return &bigquery.TableMetadata{
+		Description: "usergroups follows the structure of the WebAPI. For field descriptions see the official " +
+			"documentation: https://api.slack.com/types/usergroup",
 		Schema: u.Schema(),
 	}
 }

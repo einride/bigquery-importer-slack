@@ -6,23 +6,37 @@ Go service for importing Slack workspace data into BigQuery
 
 To use th service, the following environment variables have to be set:
 
-- **LOGGER_SERVICENAME**: Will add the ServiceContext to the log with the specified service name.
-- **LOGGER_LEVEL**: The minimum enabled logging level. Recommended: Debug
-- **LOGGER_DEVELOPMENT**: If the logger is set to development mode or not. Recommended: false
-- **SLACKCLIENT_APISECRET**: The service assumes that the Slack API key is stored in a GCP Secret Manager. This variable
-  should therefore be set to the full resource path of that secret. The API Key is acquired by creating and installing a
-  new Slack bot on the workspace that will have its data exported. Instructions can be found [here][slack-api-key]. the
-  key sould be of the bot-token type and contain teh following scopes:
+- LOGGER_SERVICENAME: Will add the ServiceContext to the log with the specified service name.
+- LOGGER_LEVEL: The minimum enabled logging level. Recommended: **debug**.
+- LOGGER_DEVELOPMENT: If the logger is set to development mode or not. Recommended: **false**.
+- SLACKCLIENT_APISECRET: The service requires that the API key for accessing the GitHub Organizations data is stored in a
+  Secret Manager secret. This variable should be set to the full resource name of that secret. The API Key is acquired
+  by creating and installing a new Slack bot on the workspace that will have its data exported. Instructions can be
+  found [here][slack-api-key]. The key should be of the bot-token type and contain the following scopes:
     - channels:read
     - groups:read
     - usergroups:read
     - users:read
     - users:read.email
-- **BIGQUERYCLIENT_PROJECTID**: The project that contains the BigQuery Dataset
-- **JOB_DATASET**: The name of the dataset that the data will be exported to.
-- **JOB_ORG**: The organisation the data belongs to.
+    - files:read
+- BIGQUERYCLIENT_PROJECTID: The id of the project where the tables will be created.
+- JOB_DATASET: The name of the dataset where tables will be created.
+- JOB_ORG: The organization the data belongs to.
+- JOB_APPENDIDSUFFIX: When this flag is true the job's id will be used as a suffix for the table name. This is useful
+  for testing when multiple tables have to be created in quick succession. Recommended: **false**.
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to add and update tests as appropriate.
+
+Contributions should adhere to the [Conventional Commits][commits] specification.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
 
 [slack-api-key]:https://api.slack.com/authentication/token-types#bot
 
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+[commits]:https://www.conventionalcommits.org/en/v1.0.0/

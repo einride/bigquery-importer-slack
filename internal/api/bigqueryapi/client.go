@@ -28,8 +28,8 @@ func allTableRows() []tables.Row {
 	}
 }
 
-// EnsureTables creates new tables. If a table already exists it will be deleted and
-// a new one created
+// EnsureTables creates new tables.
+// If a table already exists an error will be returned.
 func (c *JobClient) EnsureTables(ctx context.Context) error {
 	c.Logger.Info("ensuring tables")
 	for _, tableRow := range allTableRows() {
@@ -40,7 +40,7 @@ func (c *JobClient) EnsureTables(ctx context.Context) error {
 	return nil
 }
 
-// PutUsers adds an array of users to the corresponding BigQuery table
+// PutUsers adds an array of slack.User to the corresponding BigQuery table.
 func (c *JobClient) PutUsers(ctx context.Context, users []slack.User) (err error) {
 	defer func() {
 		if err != nil {
@@ -62,7 +62,7 @@ func (c *JobClient) PutUsers(ctx context.Context, users []slack.User) (err error
 	return c.inserter(&tables.UsersRow{}).Put(ctx, valueSavers)
 }
 
-// PutUserGroups adds an array of usergroups to the corresponding BigQuery table
+// PutUserGroups adds an array of slack.UserGroup to the corresponding BigQuery table.
 func (c *JobClient) PutUserGroups(ctx context.Context, usergroups []slack.UserGroup) (err error) {
 	defer func() {
 		if err != nil {
@@ -84,7 +84,7 @@ func (c *JobClient) PutUserGroups(ctx context.Context, usergroups []slack.UserGr
 	return c.inserter(&tables.UserGroupsRow{}).Put(ctx, valueSavers)
 }
 
-// PutChannels adds an array of channels to the corresponding BigQuery table
+// PutChannels adds an array of slack.Channel to the corresponding BigQuery table.
 func (c *JobClient) PutChannels(ctx context.Context, channels []slack.Channel) (err error) {
 	defer func() {
 		if err != nil {
@@ -106,7 +106,7 @@ func (c *JobClient) PutChannels(ctx context.Context, channels []slack.Channel) (
 	return c.inserter(&tables.ChannelsRow{}).Put(ctx, valueSavers)
 }
 
-// PutChannelMembers adds an array of channel members to the corresponding BigQuery table
+// PutChannelMembers adds an array of channel members to the corresponding BigQuery table.
 func (c *JobClient) PutChannelMembers(ctx context.Context, channel *slack.Channel, members []string) (err error) {
 	defer func() {
 		if err != nil {
@@ -129,6 +129,7 @@ func (c *JobClient) PutChannelMembers(ctx context.Context, channel *slack.Channe
 	return c.inserter(&tables.ChannelMembersRow{}).Put(ctx, valueSavers)
 }
 
+// PutFiles adds an array of slack.File to the corresponding BigQuery table.
 func (c *JobClient) PutFiles(ctx context.Context, files []slack.File) (err error) {
 	defer func() {
 		if err != nil {

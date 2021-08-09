@@ -13,9 +13,9 @@ type SlackClient struct {
 	Logger *zap.Logger
 }
 
-// ListUsers returns all the users in a workspace
+// ListUsers returns all the users in a workspace.
 //
-// Required Scopes: users:read, users:read.email (for email)
+// Required Scopes: users:read, users:read.email (for email).
 func (c *SlackClient) ListUsers(ctx context.Context, put func(context.Context, []slack.User) error) (err error) {
 	defer func() {
 		if err != nil {
@@ -30,8 +30,6 @@ func (c *SlackClient) ListUsers(ctx context.Context, put func(context.Context, [
 }
 
 // ListUserGroups returns all slack.UserGroup's in a workspace.
-// Note that slack.UserGroup's are not the same thing as Channels.
-// A slack.UserGroup is equivalent to a direct message conversation between more than two users.
 //
 // Required Scopes: usergroups:read
 func (c *SlackClient) ListUserGroups(ctx context.Context, put func(context.Context, []slack.UserGroup) error) (err error) {
@@ -47,8 +45,8 @@ func (c *SlackClient) ListUserGroups(ctx context.Context, put func(context.Conte
 	return put(ctx, groups)
 }
 
-// ListChannels returns all public and private channels in a workspace. Only private channels that the slack bot have
-// been added to will be returned.
+// ListChannels returns all public and private channels in a workspace.
+// Only private channels that the slack bot have been added to will be returned.
 //
 // Required scopes: channels:read, groups:read
 func (c *SlackClient) ListChannels(ctx context.Context, put func(context.Context, []slack.Channel) error) (err error) {
@@ -78,7 +76,7 @@ func (c *SlackClient) ListChannels(ctx context.Context, put func(context.Context
 	return nil
 }
 
-// ListChannelMembers returns the id's of the members in a channel.
+// ListChannelMembers returns the ids of the members in a channel.
 func (c *SlackClient) ListChannelMembers(ctx context.Context, channel *slack.Channel, put func(context.Context, *slack.Channel, []string) error) (err error) {
 	defer func() {
 		if err != nil {
@@ -105,6 +103,10 @@ func (c *SlackClient) ListChannelMembers(ctx context.Context, channel *slack.Cha
 	return nil
 }
 
+// ListFiles returns an array of slack.File.
+// The bot only has access to files in channels that it has been added to.
+//
+// Required Scopes: files:read
 func (c *SlackClient) ListFiles(ctx context.Context, put func(context.Context, []slack.File) error) (err error) {
 	defer func() {
 		if err != nil {

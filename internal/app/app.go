@@ -16,7 +16,7 @@ type App struct {
 	Logger            *zap.Logger
 }
 
-// Run export all the fetched data into it's corresponding table
+// Run export all the fetched data into its corresponding table
 func (a *App) Run(ctx context.Context) error {
 	a.Logger.Info("running")
 	defer a.Logger.Info("stopped")

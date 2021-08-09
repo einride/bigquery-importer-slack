@@ -9,6 +9,8 @@ import (
 	"github.com/slack-go/slack"
 )
 
+// FilesRow follows the structure of the WebAPI. For field descriptions see the official
+// documentation: https://api.slack.com/types/file
 type FilesRow struct {
 	Id                 string     `bigquery:"id"`
 	Created            civil.Time `bigquery:"created"`
@@ -95,6 +97,8 @@ func (f *FilesRow) Schema() bigquery.Schema {
 
 func (f *FilesRow) TableMetadata() *bigquery.TableMetadata {
 	return &bigquery.TableMetadata{
+		Description: "files follows the structure of the WebAPI. For field descriptions see the official " +
+			"documentation: https://api.slack.com/types/file",
 		Schema: f.Schema(),
 	}
 }

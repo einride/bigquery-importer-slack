@@ -9,6 +9,8 @@ import (
 	"github.com/slack-go/slack"
 )
 
+// UsersRow follows the structure of the WebAPI. For field descriptions see the official
+// documentation: https://api.slack.com/types/user
 type UsersRow struct {
 	Org               string      `bigquery:"org"`
 	Id                string      `bigquery:"id"`
@@ -74,6 +76,8 @@ func (u *UsersRow) Schema() bigquery.Schema {
 
 func (u *UsersRow) TableMetadata() *bigquery.TableMetadata {
 	return &bigquery.TableMetadata{
+		Description: "users follows the structure of the WebAPI. For field descriptions see the official " +
+			"documentation: https://api.slack.com/types/user",
 		Schema: u.Schema(),
 	}
 }
