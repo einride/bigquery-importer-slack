@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"cloud.google.com/go/bigquery"
 	"github.com/einride/bigquery-importer-slack/internal/tables"
@@ -150,6 +151,14 @@ func (c *JobClient) PutFiles(ctx context.Context, files []slack.File) (err error
 
 func (c *JobClient) inserter(row tables.Row) *bigquery.Inserter {
 	tableID := row.TableID(c.Config.Date)
+	switch c.Config.AppendTimeType {
+	case "second":
+		tableID += strconv.Itoa(c.Config.Time.Hour) + strconv.Itoa(c.Config.Time.Minute) + strconv.Itoa(c.Config.Time.Second)
+	case "minute":
+		tableID += strconv.Itoa(c.Config.Time.Hour) + strconv.Itoa(c.Config.Time.Minute)
+	case "hour":
+		tableID += strconv.Itoa(c.Config.Time.Hour)
+	}
 	if c.Config.AppendIDSuffix {
 		tableID = tableID + "_" + c.Config.ID.String()
 	}
@@ -163,6 +172,14 @@ func (c *JobClient) createTable(ctx context.Context, row tables.Row) (err error)
 		}
 	}()
 	tableID := row.TableID(c.Config.Date)
+	switch c.Config.AppendTimeType {
+	case "second":
+		tableID += strconv.Itoa(c.Config.Time.Hour) + strconv.Itoa(c.Config.Time.Minute) + strconv.Itoa(c.Config.Time.Second)
+	case "minute":
+		tableID += strconv.Itoa(c.Config.Time.Hour) + strconv.Itoa(c.Config.Time.Minute)
+	case "hour":
+		tableID += strconv.Itoa(c.Config.Time.Hour)
+	}
 	if c.Config.AppendIDSuffix {
 		tableID = tableID + "_" + c.Config.ID.String()
 	}

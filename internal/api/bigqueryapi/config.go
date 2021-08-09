@@ -11,4 +11,6 @@ type JobConfig struct {
 	Date           civil.Date
 	ID             uuid.UUID
 	AppendIDSuffix bool
+	Time           civil.Time
+	AppendTimeType string
 }
