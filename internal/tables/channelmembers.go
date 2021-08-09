@@ -8,6 +8,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// ChannelMembersRow is a connection between a channel and a member user.
 type ChannelMembersRow struct {
 	ChannelID   string `bigquery:"channel_id"`
 	ChannelName string `bigquery:"channel_name"`
@@ -35,7 +36,8 @@ func (c *ChannelMembersRow) Schema() bigquery.Schema {
 
 func (c *ChannelMembersRow) TableMetadata() *bigquery.TableMetadata {
 	return &bigquery.TableMetadata{
-		Schema: c.Schema(),
+		Description: "channel_members is a connection between a channel and a member user.",
+		Schema:      c.Schema(),
 	}
 }
 
