@@ -16,8 +16,6 @@ include ./tools/semantic-release/rules.mk
 revision := $(shell git rev-parse --verify HEAD)
 dirty := $(shell git diff --quiet || echo '-dirty')
 docker_tag := $(revision)$(dirty)
-gcp_project := e-john-kristoffersson
-gcp_project_number := 1069625570948
 app := github.com/einride/bigquery-importer-slack
 docker_repo := gcr.io/$(gcp_project)
 docker_image := $(docker_repo)/$(app):$(docker_tag)
