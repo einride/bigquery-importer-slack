@@ -96,10 +96,8 @@ func (c *JobClient) PutChannels(ctx context.Context, channels []slack.Channel) (
 	}
 	valueSavers := make([]bigquery.ValueSaver, 0, len(channels))
 	for _, channel := range channels {
-		row := tables.ChannelsRow{
-			Org: c.Config.Org,
-		}
-		row.UnmarshallSlackChannel(&channel)
+		row := tables.ChannelsRow{}
+		row.UnmarshalSlackChannel(&channel)
 		valueSavers = append(valueSavers, row.ValueSaver(c.Config.ID))
 	}
 	c.Logger.Debug("inserting channels", zap.Int("count", len(valueSavers)))
