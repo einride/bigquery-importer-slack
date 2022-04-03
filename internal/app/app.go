@@ -16,7 +16,7 @@ type App struct {
 	Logger            *zap.Logger
 }
 
-// Run export all the fetched data into its corresponding table
+// Run export all the fetched data into its corresponding table.
 func (a *App) Run(ctx context.Context) error {
 	a.Logger.Info("running")
 	defer a.Logger.Info("stopped")
@@ -67,9 +67,10 @@ func (a *App) exportChannels(ctx context.Context) (err error) {
 	a.Logger.Info("exporting channels")
 	return a.SlackClient.ListChannels(ctx, func(ctx context.Context, channels []slack.Channel) error {
 		if err := a.BigQueryJobClient.PutChannels(ctx, channels); err != nil {
-			return nil
+			return err
 		}
 		for _, channel := range channels {
+			channel := channel
 			if err := a.exportChannelMembers(ctx, &channel); err != nil {
 				return err
 			}

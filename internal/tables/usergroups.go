@@ -13,7 +13,7 @@ import (
 // documentation: https://api.slack.com/types/usergroup
 type UserGroupsRow struct {
 	Org         string         `bigquery:"org"`
-	Id          string         `bigquery:"id"`
+	ID          string         `bigquery:"id"`
 	TeamID      string         `bigquery:"team_id"`
 	IsUserGroup bool           `bigquery:"is_usergroup"`
 	Name        string         `bigquery:"name"`
@@ -66,7 +66,7 @@ func (u *UserGroupsRow) TableMetadata() *bigquery.TableMetadata {
 func (u *UserGroupsRow) InsertID(jobID uuid.UUID) string {
 	return strings.Join([]string{
 		jobID.String(),
-		u.Id,
+		u.ID,
 	}, "-")
 }
 
@@ -75,7 +75,7 @@ func (u *UserGroupsRow) UnmarshalSlackUserGroup(su *slack.UserGroup) {
 		*u = UserGroupsRow{}
 		return
 	}
-	u.Id = su.ID
+	u.ID = su.ID
 	u.TeamID = su.TeamID
 	u.IsUserGroup = su.IsUserGroup
 	u.Name = su.Name
