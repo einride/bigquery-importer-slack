@@ -12,7 +12,7 @@ import (
 // FilesRow follows the structure of the WebAPI. For field descriptions see the official
 // documentation: https://api.slack.com/types/file
 type FilesRow struct {
-	Id                 string     `bigquery:"id"`
+	ID                 string     `bigquery:"id"`
 	Created            civil.Time `bigquery:"created"`
 	Name               string     `bigquery:"name"`
 	Title              string     `bigquery:"title"`
@@ -55,7 +55,7 @@ type FilesRow struct {
 var _ Row = &FilesRow{}
 
 type Comment struct {
-	Id      string     `bigquery:"id"`
+	ID      string     `bigquery:"id"`
 	Created civil.Time `bigquery:"created"`
 	User    string     `bigquery:"user"`
 	Comment string     `bigquery:"comment"`
@@ -67,12 +67,12 @@ type Share struct {
 }
 
 type ShareFileInfo struct {
-	Id              string   `bigquery:"id"`
+	ID              string   `bigquery:"id"`
 	ReplyUsers      []string `bigquery:"reply_users"`
 	ReplyUsersCount int      `bigquery:"reply_users_count"`
 	ReplyCount      int      `bigquery:"reply_count"`
-	Ts              string   `bigquery:"ts"`
-	ThreadTs        string   `bigquery:"thread_ts"`
+	Timestamp       string   `bigquery:"ts"`
+	ThreadTimestamp string   `bigquery:"thread_ts"`
 	LatestReply     string   `bigquery:"latest_reply"`
 	ChannelName     string   `bigquery:"channel_name"`
 	TeamID          string   `bigquery:"team_id"`
@@ -106,7 +106,7 @@ func (f *FilesRow) TableMetadata() *bigquery.TableMetadata {
 func (f *FilesRow) InsertID(jobID uuid.UUID) string {
 	return strings.Join([]string{
 		jobID.String(),
-		f.Id,
+		f.ID,
 	}, "-")
 }
 
@@ -115,7 +115,7 @@ func (f *FilesRow) UnmarshalFile(sf *slack.File) {
 		*f = FilesRow{}
 		return
 	}
-	f.Id = sf.ID
+	f.ID = sf.ID
 	f.Created = civil.TimeOf(sf.Created.Time())
 	f.Name = sf.Name
 	f.Title = sf.Title
@@ -156,7 +156,7 @@ func (f *FilesRow) UnmarshalFile(sf *slack.File) {
 }
 
 func (c *Comment) UnmarshalComment(sc *slack.Comment) {
-	c.Id = sc.ID
+	c.ID = sc.ID
 	c.Created = civil.TimeOf(sc.Created.Time())
 	c.User = sc.User
 	c.Comment = sc.Comment
@@ -178,7 +178,8 @@ func (s *Share) UnmarshalShare(ss *slack.Share) {
 func UnmarshalFileInfoArray(id string, files []slack.ShareFileInfo) []ShareFileInfo {
 	result := make([]ShareFileInfo, 0, len(files))
 	for _, file := range files {
-		info := ShareFileInfo{Id: id}
+		file := file
+		info := ShareFileInfo{ID: id}
 		info.UnmarshalShareFileInfo(&file)
 		result = append(result, info)
 	}
@@ -189,8 +190,8 @@ func (s *ShareFileInfo) UnmarshalShareFileInfo(sfi *slack.ShareFileInfo) {
 	s.ReplyUsers = sfi.ReplyUsers
 	s.ReplyUsersCount = sfi.ReplyUsersCount
 	s.ReplyCount = sfi.ReplyCount
-	s.Ts = sfi.Ts
-	s.ThreadTs = sfi.ThreadTs
+	s.Timestamp = sfi.Ts
+	s.ThreadTimestamp = sfi.ThreadTs
 	s.LatestReply = sfi.LatestReply
 	s.ChannelName = sfi.ChannelName
 	s.TeamID = sfi.TeamID

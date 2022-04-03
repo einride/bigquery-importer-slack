@@ -13,7 +13,7 @@ import (
 // documentation: https://api.slack.com/types/user
 type UsersRow struct {
 	Org               string      `bigquery:"org"`
-	Id                string      `bigquery:"id"`
+	ID                string      `bigquery:"id"`
 	TeamID            string      `bigquery:"team_id"`
 	Deleted           bool        `bigquery:"deleted"`
 	RealName          string      `bigquery:"real_name"`
@@ -50,7 +50,7 @@ type UserProfile struct {
 	Phone                 string `bigquery:"phone"`
 	Title                 string `bigquery:"title"`
 	BotID                 string `bigquery:"bot_id"`
-	ApiAppID              string `bigquery:"api_app_id"`
+	APIAppID              string `bigquery:"api_app_id"`
 	StatusText            string `bigquery:"status_text"`
 	StatusEmoji           string `bigquery:"status_emoji"`
 	StatusExpiration      int    `bigquery:"status_expiration"`
@@ -85,7 +85,7 @@ func (u *UsersRow) TableMetadata() *bigquery.TableMetadata {
 func (u *UsersRow) InsertID(jobID uuid.UUID) string {
 	return strings.Join([]string{
 		jobID.String(),
-		u.Id,
+		u.ID,
 	}, "-")
 }
 
@@ -94,7 +94,7 @@ func (u *UsersRow) UnmarshalSlackUser(su *slack.User) {
 		*u = UsersRow{}
 		return
 	}
-	u.Id = su.ID
+	u.ID = su.ID
 	u.TeamID = su.TeamID
 	u.Deleted = su.Deleted
 	u.TZ = su.TZ
@@ -128,7 +128,7 @@ func (u *UserProfile) UnmarshalSlackUserProfile(up *slack.UserProfile) {
 	u.Phone = up.Phone
 	u.Title = up.Title
 	u.BotID = up.BotID
-	u.ApiAppID = up.ApiAppID
+	u.APIAppID = up.ApiAppID
 	u.StatusText = up.StatusText
 	u.StatusEmoji = up.StatusEmoji
 	u.StatusExpiration = up.StatusExpiration

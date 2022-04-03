@@ -2,6 +2,7 @@ package bigqueryapi
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -52,6 +53,7 @@ func (c *JobClient) PutUsers(ctx context.Context, users []slack.User) (err error
 	}
 	valueSavers := make([]bigquery.ValueSaver, 0, len(users))
 	for _, user := range users {
+		user := user
 		row := tables.UsersRow{
 			Org: c.Config.Org,
 		}
@@ -74,6 +76,7 @@ func (c *JobClient) PutUserGroups(ctx context.Context, usergroups []slack.UserGr
 	}
 	valueSavers := make([]bigquery.ValueSaver, 0, len(usergroups))
 	for _, usergroup := range usergroups {
+		usergroup := usergroup
 		row := tables.UserGroupsRow{
 			Org: c.Config.Org,
 		}
@@ -96,6 +99,7 @@ func (c *JobClient) PutChannels(ctx context.Context, channels []slack.Channel) (
 	}
 	valueSavers := make([]bigquery.ValueSaver, 0, len(channels))
 	for _, channel := range channels {
+		channel := channel
 		row := tables.ChannelsRow{
 			Org: c.Config.Org,
 		}
@@ -141,6 +145,7 @@ func (c *JobClient) PutFiles(ctx context.Context, files []slack.File) (err error
 	}
 	valueSavers := make([]bigquery.ValueSaver, 0, len(files))
 	for _, file := range files {
+		file := file
 		row := &tables.FilesRow{}
 		row.UnmarshalFile(&file)
 		valueSavers = append(valueSavers, row.ValueSaver(c.Config.ID))
@@ -171,8 +176,11 @@ func (c *JobClient) createTable(ctx context.Context, row tables.Row) (err error)
 	if _, err = table.Metadata(ctx); err == nil {
 		return fmt.Errorf("table already exists: %s", table.FullyQualifiedName())
 	}
-	if errAPI, ok := err.(*googleapi.Error); err != nil && (!ok || errAPI.Code != http.StatusNotFound) {
-		return err
+	if err != nil {
+		var errAPI *googleapi.Error
+		if !errors.As(err, &errAPI) || errAPI.Code != http.StatusNotFound {
+			return err
+		}
 	}
 	c.Logger.Info("creating table", zap.Any("fullyQualifiedName", table.FullyQualifiedName()))
 	return table.Create(ctx, row.TableMetadata())

@@ -13,7 +13,7 @@ import (
 // documentation: https://api.slack.com/types/channel
 type ChannelsRow struct {
 	Org       string  `bigquery:"org"`
-	Id        string  `bigquery:"id"`
+	ID        string  `bigquery:"id"`
 	Name      string  `bigquery:"name"`
 	Creator   string  `bigquery:"creator"`
 	Topic     Topic   `bigquery:"topic"`
@@ -65,7 +65,7 @@ func (c *ChannelsRow) TableMetadata() *bigquery.TableMetadata {
 func (c *ChannelsRow) InsertID(jobID uuid.UUID) string {
 	return strings.Join([]string{
 		jobID.String(),
-		c.Id,
+		c.ID,
 	}, "-")
 }
 
@@ -74,7 +74,7 @@ func (c *ChannelsRow) UnmarshallSlackChannel(sc *slack.Channel) {
 		*c = ChannelsRow{}
 		return
 	}
-	c.Id = sc.GroupConversation.ID
+	c.ID = sc.GroupConversation.ID
 	c.Name = sc.GroupConversation.Name
 	c.Creator = sc.GroupConversation.Creator
 	c.Topic.UnmarshallTopic(&sc.Topic)
