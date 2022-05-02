@@ -12,7 +12,7 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/slack-go/slack v0.10.3
 	go.uber.org/zap v1.21.0
-	google.golang.org/api v0.75.0
+	google.golang.org/api v0.77.0
 	google.golang.org/genproto v0.0.0-20220414192740-2d67ff6cf2b4
 )
 
