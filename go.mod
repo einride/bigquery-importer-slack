@@ -3,7 +3,7 @@ module github.com/einride/bigquery-importer-slack
 go 1.17
 
 require (
-	cloud.google.com/go v0.101.0
+	cloud.google.com/go v0.101.1
 	cloud.google.com/go/bigquery v1.31.0
 	cloud.google.com/go/secretmanager v1.4.0
 	github.com/blendle/zapdriver v1.3.1
@@ -12,8 +12,8 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/slack-go/slack v0.10.3
 	go.uber.org/zap v1.21.0
-	google.golang.org/api v0.75.0
-	google.golang.org/genproto v0.0.0-20220414192740-2d67ff6cf2b4
+	google.golang.org/api v0.77.0
+	google.golang.org/genproto v0.0.0-20220502173005-c8bf987b8c21
 )
 
 require (
@@ -38,6 +38,6 @@ require (
 	golang.org/x/tools v0.1.5 // indirect
 	golang.org/x/xerrors v0.0.0-20220411194840-2f41105eb62f // indirect
 	google.golang.org/appengine v1.6.7 // indirect
-	google.golang.org/grpc v1.45.0 // indirect
+	google.golang.org/grpc v1.46.0 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 )
