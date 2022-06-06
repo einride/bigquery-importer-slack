@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	cloud.google.com/go v0.102.0
-	cloud.google.com/go/bigquery v1.31.0
+	cloud.google.com/go/bigquery v1.32.0
 	cloud.google.com/go/secretmanager v1.4.0
 	github.com/blendle/zapdriver v1.3.1
 	github.com/google/uuid v1.3.0
