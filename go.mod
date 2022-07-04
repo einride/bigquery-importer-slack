@@ -10,7 +10,7 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/google/wire v0.5.0
 	github.com/kelseyhightower/envconfig v1.4.0
-	github.com/slack-go/slack v0.10.3
+	github.com/slack-go/slack v0.11.0
 	go.uber.org/zap v1.21.0
 	google.golang.org/api v0.85.0
 	google.golang.org/genproto v0.0.0-20220622131801-db39fadba55f
